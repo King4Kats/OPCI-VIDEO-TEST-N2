@@ -1,0 +1,65 @@
+# Environnement virtuel Python
+venv_312/
+venv/
+env/
+ENV/
+
+# Fichiers temporaires
+temp/
+*.mp4
+*.wav
+*.MTS
+*.mts
+
+# Fichiers de sortie
+output/
+logs/*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers de test
+test_*.py
+*_test.py
+
+# Documentation temporaire
+ETAT_*.md
+GUIDE_*.md
+CORRECTIONS_*.md
+INSTALLATION_REUSSIE.md
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+*~

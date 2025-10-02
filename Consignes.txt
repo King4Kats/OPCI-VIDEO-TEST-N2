@@ -1,0 +1,120 @@
+ PROJET : Logiciel de découpage intelligent de vidéos d'interviews
+Objectif :
+Créer un logiciel Windows (.exe) pour découper automatiquement des vidéos d'interviews en extraits thématiques, en
+utilisant l'IA pour analyser le contenu.
+Utilisateurs cibles :
+Personnes sans compétences techniques qui enregistrent des interviews d'artisans et témoignages de personnes âgées.
+Fonctionnalités principales :
+
+Interface graphique simple (Python + Tkinter ou PyQt)
+
+Fenêtre principale avec boutons clairs
+Sélection multiple de fichiers vidéo (formats : MTS, MP4, AVI)
+Barre de progression visible pendant le traitement
+Bouton "Démarrer l'analyse"
+
+
+Traitement vidéo automatique
+
+Concaténer automatiquement plusieurs fichiers MTS si fournis
+Extraire la piste audio
+Transcription complète avec Whisper (modèle local, français prioritaire)
+Sauvegarder la transcription avec timestamps
+
+
+Analyse intelligente par IA
+
+Utiliser un modèle LLM local (Ollama + Llama ou Mistral)
+Analyser la transcription pour identifier :
+
+Les différents sujets/thèmes abordés
+Les noms de villes, villages, lieux
+Les transitions naturelles entre sujets
+
+
+Proposer des points de découpe pertinents (éviter de couper en plein milieu d'une phrase)
+Générer un titre descriptif pour chaque extrait
+
+
+Interface de validation (important !)
+
+Afficher la liste des extraits proposés avec :
+
+Titre généré par l'IA (modifiable)
+Durée
+Timestamps de début/fin
+
+
+Permettre de :
+
+Modifier les titres
+Ajuster manuellement les points de découpe (glisser-déposer)
+Fusionner deux extraits
+Supprimer un extrait
+Prévisualiser un extrait avant export
+
+
+Bouton "Exporter tous les extraits"
+
+
+Export final
+
+Format : MP4 (H.264, qualité moyenne optimisée pour le web)
+Nommage automatique : [NuméroExtrait]_[TitreGénéré].mp4
+Dossier de sortie au choix de l'utilisateur
+Notification de fin de traitement
+
+
+
+Contraintes techniques :
+
+Installation en un clic : créer un installateur .exe qui :
+
+Installe Python et toutes les dépendances automatiquement
+Télécharge et configure Whisper (modèle medium ou small)
+Télécharge et configure Ollama avec un modèle français
+Configure FFmpeg pour le traitement vidéo
+Crée un raccourci sur le bureau
+
+
+Tout en local : aucune connexion internet requise après installation
+Gestion de la mémoire : optimiser pour ne pas saturer le PC
+Logs : fichier de log pour déboguer si problème
+
+Bibliothèques suggérées :
+
+Interface : PyQt5 ou Tkinter
+Vidéo : FFmpeg (via ffmpeg-python)
+Audio : librosa ou pydub
+Transcription : openai-whisper
+IA : ollama-python ou llama-cpp-python
+Packaging : PyInstaller ou cx_Freeze
+
+Livrables attendus :
+
+Code source complet et commenté
+Script d'installation/packaging
+Documentation utilisateur simple (avec captures d'écran)
+README technique pour maintenance future
+
+Critères de qualité :
+
+Interface intuitive pour utilisateurs non-techniques
+Messages d'erreur clairs en français
+Gestion des cas d'erreur (fichier corrompu, etc.)
+Performance acceptable (même si le traitement prend du temps)Gestion des vidéos longues :
+
+Implémenter un système de traitement par segments pour Whisper (max 10-15 min par segment)
+Recalculer et normaliser tous les timestamps pour avoir une timeline cohérente
+Créer un fichier de mapping : {texte_transcrit: timestamp_absolu}
+
+Gestion mémoire :
+
+Traiter la vidéo en streaming avec FFmpeg (pas de chargement complet en RAM)Analyse IA avec texte long :
+
+Si transcription > 4000 tokens : découper en blocs logiques mais analyser bloc ensemble pour decoupe par sujetFaire
+une synthèse finale pour identifier les grandes sectionsRobustesse :
+
+Système de sauvegarde automatique : si crash, pouvoir reprendre où on en était
+Logs détaillés pour chaque étape
+Messages d'erreur explicites en français

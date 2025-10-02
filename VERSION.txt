@@ -1,0 +1,46 @@
+Decoupeur Video Intelligent
+Version: 1.0
+Date: Octobre 2025
+
+CHANGELOG:
+
+v1.0 - Release initiale
+- Concatenation automatique des fichiers MTS
+- Transcription audio avec Whisper
+- Analyse thematique IA avec Ollama
+- Decoupage intelligent par theme
+- Export transcription (TXT + JSON)
+- Previsualisation des segments
+- Interface graphique PyQt5
+- Support Windows 10/11
+
+Corrections techniques:
+- Fix erreur API Ollama (model.model au lieu de model['name'])
+- Fix subprocess.run() dans video processor
+- Fix extraction segments audio pour Whisper
+- Fix bouton previsualiser (tuple unpacking)
+- Export automatique transcription en TXT et JSON
+- Tracabilite video source <-> transcription
+
+Dependances:
+- Python 3.12
+- PyQt5 5.15.11
+- FFmpeg 8.0
+- openai-whisper 20250625
+- PyTorch 2.8.0+cpu
+- Ollama 0.6.0
+- librosa 0.11.0
+
+Modeles IA:
+- Whisper: medium (defaut)
+- Ollama: qwen3-coder:30b ou mistral
+
+Performance (1h de video):
+- Transcription: ~50 min
+- Analyse IA: ~10 min
+- Export: ~20 min
+- Total: ~80 min
+
+Espace disque requis:
+- Installation: ~10-30 GB (selon modele Ollama)
+- Espace de travail: 5-10 GB minimum
