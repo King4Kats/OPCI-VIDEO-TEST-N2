@@ -351,7 +351,7 @@ class Config:
     SEGMENT_MAX_DURATION = 600  # 10 minutes
 
     # Ollama
-    OLLAMA_MODEL = "mistral:7b"
+    OLLAMA_MODEL = "qwen2.5:3b"  # Modèle léger optimisé pour l'analyse de texte (~2 GB RAM)
     MAX_TOKENS_PER_ANALYSIS = 4000
 
     # Vidéo
@@ -562,7 +562,7 @@ pip install --upgrade openai-whisper
 curl -fsSL https://ollama.ai/install.sh | sh
 
 # Mise à jour des modèles
-ollama pull mistral:latest
+ollama pull qwen2.5:3b
 ```
 
 ### Troubleshooting courant

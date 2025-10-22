@@ -47,14 +47,11 @@ Logiciel Windows pour decouper automatiquement des videos d'interviews en extrai
 
 1. Telecharger Ollama: https://ollama.ai/download
 2. Installer l'application
-3. Ouvrir un terminal et telecharger un modele:
+3. Ouvrir un terminal et telecharger le modele:
    ```cmd
-   ollama pull mistral
+   ollama pull qwen2.5:3b
    ```
-   OU pour de meilleurs resultats (plus lourd):
-   ```cmd
-   ollama pull qwen3-coder:30b
-   ```
+   (Telechargement d'environ 2 GB)
 
 ### Installation de l'application
 
@@ -142,12 +139,12 @@ output/
 
 Par defaut, l'application utilise:
 - **Whisper**: `medium` (bon compromis qualite/vitesse)
-- **Ollama**: `qwen3-coder:30b` (ou `mistral` si installe)
+- **Ollama**: `qwen2.5:3b` (modele leger ~2 GB RAM, optimise pour l'analyse de texte)
 
 Pour changer les modeles, editer `src/config.py`:
 ```python
 WHISPER_MODEL = 'small'  # Options: tiny, base, small, medium, large
-OLLAMA_MODEL = 'mistral'  # Ou tout autre modele Ollama
+OLLAMA_MODEL = 'qwen2.5:3b'  # Ou tout autre modele Ollama (mistral:7b, gemma2:9b, etc.)
 ```
 
 ### Qualite video
@@ -190,8 +187,8 @@ setx PATH "%PATH%;C:\ffmpeg\bin"
 # Verifier Ollama
 ollama list
 
-# Telecharger un modele
-ollama pull mistral
+# Telecharger le modele
+ollama pull qwen2.5:3b
 ```
 
 ### "Erreur de memoire"

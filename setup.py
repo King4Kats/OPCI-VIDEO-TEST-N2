@@ -313,7 +313,7 @@ echo.
 echo Pour une utilisation optimale, assurez-vous que:
 echo - FFmpeg est installe et accessible
 echo - Ollama est installe et configure
-echo - Un modele Ollama est telecharge (ex: ollama pull mistral)
+echo - Un modele Ollama est telecharge (ex: ollama pull qwen2.5:3b)
 echo.
 pause
 '''
@@ -403,7 +403,7 @@ echo
 echo "Pour une utilisation optimale, assurez-vous que:"
 echo "- FFmpeg est installé"
 echo "- Ollama est installé et configuré"
-echo "- Un modèle Ollama est téléchargé (ex: ollama pull mistral)"
+echo "- Un modèle Ollama est téléchargé (ex: ollama pull qwen2.5:3b)"
 echo
 '''
 
@@ -491,7 +491,7 @@ echo "Désinstallation terminée"
 
 - **Ollama**: Pour l'analyse IA locale
   - Téléchargez sur https://ollama.ai/download
-  - Installez un modèle: `ollama pull mistral`
+  - Installez un modèle: `ollama pull qwen2.5:3b`
 
 ### Recommandés
 - Au moins 8 GB de RAM
@@ -530,7 +530,7 @@ echo "Désinstallation terminée"
 
 ### Erreur Ollama
 - Vérifiez qu'Ollama est installé : `ollama --version`
-- Téléchargez un modèle : `ollama pull mistral`
+- Téléchargez un modèle : `ollama pull qwen2.5:3b`
 
 ### Performance lente
 - Utilisez un GPU compatible

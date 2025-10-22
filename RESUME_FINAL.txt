@@ -149,15 +149,15 @@ DEPLOIEMENT SUR NOUVEAU PC
 Etapes:
 1. Installer Python 3.12 (cocher "Add to PATH")
 2. Installer FFmpeg (ajouter au PATH)
-3. Installer Ollama + modele (mistral)
+3. Installer Ollama + modele (qwen2.5:3b)
 4. Copier le projet
 5. Creer venv: python -m venv venv_312
 6. Activer: venv_312\Scripts\activate
 7. Installer deps: pip install -r requirements.txt
 8. Lancer: launch.bat
 
-Temps d'installation: ~30-60 min
-Espace requis: 10-30 GB
+Temps d'installation: ~30-45 min
+Espace requis: 10-12 GB
 
 ========================================
 CONFIGURATION RECOMMANDEE
@@ -171,7 +171,7 @@ PC Minimum:
 
 Modeles:
 - Whisper: medium (defaut)
-- Ollama: qwen3-coder:30b ou mistral
+- Ollama: qwen2.5:3b (defaut, leger ~2 GB RAM)
 
 ========================================
 UTILISATION

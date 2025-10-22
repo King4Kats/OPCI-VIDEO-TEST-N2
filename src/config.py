@@ -20,7 +20,7 @@ class Config:
     SEGMENT_MAX_DURATION = 600  # 10 minutes maximum par segment
 
     # IA Analysis
-    OLLAMA_MODEL = "qwen3-coder:30b"  # Modèle disponible localement
+    OLLAMA_MODEL = "qwen2.5:3b"  # Modèle léger optimisé pour l'analyse de texte (~2 GB RAM)
     MAX_TOKENS_PER_ANALYSIS = 4000
 
     # Vidéo

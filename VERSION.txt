@@ -33,7 +33,7 @@ Dependances:
 
 Modeles IA:
 - Whisper: medium (defaut)
-- Ollama: qwen3-coder:30b ou mistral
+- Ollama: qwen2.5:3b (defaut, leger ~2 GB RAM)
 
 Performance (1h de video):
 - Transcription: ~50 min
@@ -42,5 +42,5 @@ Performance (1h de video):
 - Total: ~80 min
 
 Espace disque requis:
-- Installation: ~10-30 GB (selon modele Ollama)
+- Installation: ~10-12 GB (avec qwen2.5:3b)
 - Espace de travail: 5-10 GB minimum

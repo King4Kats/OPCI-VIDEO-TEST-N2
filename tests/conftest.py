@@ -147,7 +147,7 @@ def mock_ollama():
     with patch('ollama.Client') as mock_client:
         mock_instance = Mock()
         mock_instance.list.return_value = {
-            "models": [{"name": "mistral:7b"}]
+            "models": [{"name": "qwen2.5:3b"}]
         }
         mock_instance.chat.return_value = {
             "message": {

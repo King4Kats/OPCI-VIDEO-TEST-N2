@@ -38,19 +38,16 @@
 1. Telecharger Ollama: https://ollama.ai/download
 2. Lancer l'installeur et suivre les instructions
 3. Ouvrir un terminal (cmd)
-4. Telecharger un modele IA:
-
-   **Option A - Modele leger (recommande pour debuter):**
+4. Telecharger le modele IA (recommande):
    ```cmd
-   ollama pull mistral
+   ollama pull qwen2.5:3b
    ```
 
-   **Option B - Modele performant (meilleurs resultats, plus lourd):**
-   ```cmd
-   ollama pull qwen3-coder:30b
-   ```
+   Le telechargement est d'environ 2 GB et peut prendre 5-15 minutes.
 
-   Le telechargement peut prendre 5-30 minutes selon le modele.
+   **Alternatives** (si vous avez plus de RAM disponible):
+   - `ollama pull mistral:7b` (~4-5 GB RAM)
+   - `ollama pull gemma2:9b` (~6 GB RAM)
 
 5. Verifier l'installation:
    ```cmd
@@ -115,7 +112,7 @@ Pour verifier que tout est installe correctement:
    ```cmd
    ollama list
    ```
-   Doit afficher au moins un modele (mistral ou qwen3-coder)
+   Doit afficher au moins un modele (qwen2.5:3b recommande)
 
 4. Dependances Python:
    ```cmd
@@ -164,13 +161,11 @@ Pour verifier que tout est installe correctement:
 
 - Python 3.12: ~100 MB
 - FFmpeg: ~100 MB
-- Ollama + Modele mistral: ~4 GB
-- Ollama + Modele qwen3-coder:30b: ~18 GB
+- Ollama + Modele qwen2.5:3b: ~2 GB
 - Dependances Python (venv): ~3-4 GB
 - Espace de travail (temp): 5-10 GB minimum
 
-**Total minimum**: ~10-15 GB
-**Total avec gros modele**: ~25-30 GB
+**Total minimum**: ~10-12 GB
 
 ---
 

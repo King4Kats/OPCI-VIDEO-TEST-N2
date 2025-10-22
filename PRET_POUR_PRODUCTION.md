@@ -93,7 +93,7 @@ OPCI VIDEO TEST N2/
 Installer dans l'ordre:
 1. Python 3.12 (cocher "Add to PATH")
 2. FFmpeg (ajouter au PATH)
-3. Ollama + modele (mistral ou qwen3-coder:30b)
+3. Ollama + modele (qwen2.5:3b recommande)
 
 ### 2. Installation
 ```cmd
@@ -165,9 +165,9 @@ Voir INSTALLATION.md pour les details complets.
 - Internet (pour installation)
 
 ### Modeles IA
-- **Leger/Rapide**: Whisper small + Ollama mistral
-- **Equilibre**: Whisper medium + Ollama mistral (ACTUEL)
-- **Qualite Max**: Whisper large + Ollama qwen3-coder:30b
+- **Leger/Rapide**: Whisper small + Ollama qwen2.5:3b (ACTUEL)
+- **Equilibre**: Whisper medium + Ollama qwen2.5:3b
+- **Qualite Max**: Whisper large + Ollama mistral:7b ou gemma2:9b
 
 ---
 
