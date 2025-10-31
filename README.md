@@ -55,6 +55,15 @@ Logiciel Windows pour decouper automatiquement des videos d'interviews en extrai
 
 ### Installation de l'application
 
+**Methode 1: Installation automatique (recommande)**
+
+1. **Telecharger** le dossier complet du projet
+2. **Double-cliquer** sur `install.bat`
+3. Suivre les instructions a l'ecran
+4. L'installation va creer l'environnement virtuel et installer toutes les dependances
+
+**Methode 2: Installation manuelle**
+
 1. **Telecharger** le dossier complet du projet
 2. **Ouvrir un terminal** dans le dossier du projet
 3. **Creer l'environnement virtuel**:
@@ -76,6 +85,35 @@ Double-cliquer sur `launch.bat` OU executer:
 ```cmd
 venv_312\Scripts\python src\main.py
 ```
+
+---
+
+## Mise a jour de l'application
+
+### Methode 1: Mise a jour automatique (recommande)
+
+1. Double-cliquer sur `update.bat`
+2. Le script va automatiquement:
+   - Telecharger la derniere version depuis GitHub
+   - Mettre a jour les dependances Python si necessaire
+   - Vous informer des changements
+
+### Methode 2: Mise a jour manuelle avec Git
+
+```cmd
+cd C:\chemin\vers\OPCI-VIDEO-TEST-N2
+git pull origin main
+venv_312\Scripts\activate
+pip install -r requirements.txt --upgrade
+```
+
+### Methode 3: Telechargement complet
+
+1. Sauvegarder vos donnees importantes (dossiers `output/`, `logs/`)
+2. Telecharger la nouvelle version depuis:
+   `https://github.com/King4Kats/OPCI-VIDEO-TEST-N2/archive/refs/heads/main.zip`
+3. Extraire et remplacer l'ancien dossier
+4. Relancer `install.bat`
 
 ---
 

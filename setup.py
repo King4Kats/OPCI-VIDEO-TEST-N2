@@ -56,7 +56,7 @@ class AppBuilder:
 
         for package in required_packages:
             try:
-                if '>=') in package:
+                if '>=' in package:
                     pkg_name = package.split('>=')[0]
                 else:
                     pkg_name = package
