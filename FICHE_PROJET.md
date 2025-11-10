@@ -438,16 +438,6 @@ ollama pull vigogne:7b  # Modèle français
 
 ---
 
-## Évolutions futures
-
-### Fonctionnalités prévues :
-
-- Support GPU pour Whisper (CUDA)
-- Export multi-formats (MOV, AVI, etc.)
-- Détection automatique des visages/plans
-- Support multilangue simultané
-- API REST pour traitement distant
-- Mode batch (dossier complet)
 
 ### Modèles IA à tester :
 
