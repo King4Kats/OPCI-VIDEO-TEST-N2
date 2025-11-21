@@ -1,0 +1,42 @@
+# EditorConfig - Standardisation du formatage de code
+# https://editorconfig.org
+
+root = true
+
+# Paramètres par défaut pour tous les fichiers
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Fichiers Python
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 120
+
+# Scripts Batch Windows
+[*.bat]
+end_of_line = crlf
+indent_style = space
+indent_size = 4
+
+# Fichiers Markdown
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# Fichiers JSON
+[*.json]
+indent_size = 2
+
+# Fichiers YAML
+[*.{yml,yaml}]
+indent_size = 2
+
+# Fichiers de configuration
+[{.gitignore,.gitattributes}]
+indent_size = 2

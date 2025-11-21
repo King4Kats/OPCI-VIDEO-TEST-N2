@@ -35,6 +35,13 @@ class AIAnalyzer:
                 return True
             else:
                 logger.warning(f"Modèle {self.model_name} non trouvé. Modèles disponibles: {available_models}")
+                # Essayer un fallback vers un modèle disponible
+                fallback_order = ['qwen2.5:14b', 'qwen2.5:3b', 'mistral:7b', 'codellama:latest']
+                for fallback_model in fallback_order:
+                    if fallback_model in available_models:
+                        logger.info(f"Utilisation du modèle de secours: {fallback_model}")
+                        self.model_name = fallback_model
+                        return True
                 return False
 
         except Exception as e:
@@ -45,13 +52,8 @@ class AIAnalyzer:
         """S'assure que le modèle est chargé et disponible"""
         try:
             if not self.check_model_availability():
-                logger.info(f"Téléchargement du modèle {self.model_name}...")
-
-                # Pull du modèle si non disponible
-                self.client.pull(self.model_name)
-
-                # Vérifier à nouveau
-                return self.check_model_availability()
+                logger.warning(f"Modèle {self.model_name} non disponible et aucun fallback trouvé")
+                return False
 
             return True
 

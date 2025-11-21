@@ -49,17 +49,35 @@ wheels/
 Thumbs.db
 desktop.ini
 
-# Fichiers de test
+# Fichiers de test et développement
 test_*.py
 *_test.py
+tests/
+5.0
+NUL
+
+# Scripts de développement
+regenerate_*.py
+generate_*.py
+fix_*.bat
+clean_*.bat
 
 # Documentation temporaire
 ETAT_*.md
 GUIDE_*.md
 CORRECTIONS_*.md
 INSTALLATION_REUSSIE.md
+CHANGELOG.md
+FICHE_PROJET.md
+FICHIERS_PROJET.md
+PRET_POUR_PRODUCTION.md
+RESUME_FINAL.txt
+VERSION.txt
+Consignes.txt
+LISTE_EXTRAITS.txt
 
 # Fichiers de sauvegarde
 *.bak
 *.backup
 *~
+setup.py

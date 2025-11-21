@@ -1,171 +1,105 @@
-# Decoupeur Video Intelligent
+# Découpeur Vidéo Intelligent
 
-**Version 1.0**
+**Version 2.0 - Production Ready**
 
-Logiciel Windows pour decouper automatiquement des videos d'interviews en extraits thematiques grace a l'intelligence artificielle.
-
----
-
-## Fonctionnalites
-
-- **Concatenation automatique** des fichiers MTS multiples
-- **Transcription audio** avec Whisper (OpenAI)
-- **Analyse thematique IA** avec Ollama pour identifier les sujets
-- **Decoupage intelligent** par theme (pas par duree fixe)
-- **Export de la transcription** en texte et JSON
-- **Previsualisation** des segments
-- **Interface graphique** simple et intuitive
+Application Windows pour découper automatiquement des vidéos d'interviews en extraits thématiques.
 
 ---
 
-## Installation sur un nouveau PC Windows
+## Installation Rapide
 
-### Prerequis
-
-1. **Windows 10/11** (64 bits)
-2. **Python 3.12** - [Telecharger ici](https://www.python.org/downloads/)
-   - Lors de l'installation, cocher **"Add Python to PATH"**
-3. **FFmpeg** - [Guide d'installation](#installation-ffmpeg)
-4. **Ollama** - [Guide d'installation](#installation-ollama)
-
-### Installation FFmpeg
-
-1. Telecharger FFmpeg: https://www.gyan.dev/ffmpeg/builds/
-   - Choisir **ffmpeg-release-essentials.zip**
-2. Extraire le ZIP dans `C:\ffmpeg`
-3. Ajouter au PATH Windows:
-   - Panneau de configuration > Systeme > Parametres systeme avances
-   - Variables d'environnement
-   - Dans "Variables systeme", modifier `Path`
-   - Ajouter: `C:\ffmpeg\bin`
-4. Verifier l'installation:
-   ```cmd
-   ffmpeg -version
-   ```
-
-### Installation Ollama
-
-1. Telecharger Ollama: https://ollama.ai/download
-2. Installer l'application
-3. Ouvrir un terminal et telecharger le modele:
-   ```cmd
-   ollama pull qwen2.5:3b
-   ```
-   (Telechargement d'environ 2 GB)
-
-### Installation de l'application
-
-**Methode 1: Installation automatique (recommande)**
-
-1. **Telecharger** le dossier complet du projet
-2. **Double-cliquer** sur `install.bat`
-3. Suivre les instructions a l'ecran
-4. L'installation va creer l'environnement virtuel et installer toutes les dependances
-
-**Methode 2: Installation manuelle**
-
-1. **Telecharger** le dossier complet du projet
-2. **Ouvrir un terminal** dans le dossier du projet
-3. **Creer l'environnement virtuel**:
-   ```cmd
-   python -m venv venv_312
-   ```
-4. **Activer l'environnement**:
-   ```cmd
-   venv_312\Scripts\activate
-   ```
-5. **Installer les dependances**:
-   ```cmd
-   pip install -r requirements.txt
-   ```
-
-### Premier lancement
-
-Double-cliquer sur `launch.bat` OU executer:
 ```cmd
-venv_312\Scripts\python src\main.py
+git clone https://github.com/King4Kats/OPCI-VIDEO-TEST-N2.git
+cd OPCI-VIDEO-TEST-N2
+install.bat
+```
+
+ **[Guide détaillé →](QUICK_START.md)**
+
+---
+
+## Fonctionnalités
+
+-  **Découpage automatique** par thèmes (pas par durée fixe)
+-  **Transcription** haute qualité (OpenAI Whisper)
+-  **Analyse IA** locale (Ollama)
+-  **Support multi-formats**: MTS, MP4, AVI, MOV, MK
+-  **100% local** (confidentialité garantie)
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────┐
+│         Interface Utilisateur (PyQt5)                │
+│  Sélection │ Progression │ Édition │ Prévisualisation│
+└────────────────────┬────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────┐
+│            Traitement Vidéo & Audio                  │
+│    Concaténation │ Extraction │ Découpage            │
+└────────────────────┬────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────┐
+│              Services IA & Encodage                  │
+│    FFmpeg │ Whisper │ Ollama                         │
+└─────────────────────────────────────────────────────┘
+```
+
+### Workflow
+
+```
+Vidéo(s) → Extraction Audio → Transcription (Whisper)
+    ↓
+Analyse IA (Ollama) → Segments Thématiques
+    ↓
+Validation Utilisateur → Export MP4
 ```
 
 ---
 
-## Mise a jour de l'application
+## Prérequis
 
-### Methode 1: Mise a jour automatique (recommande)
+| Logiciel | Version | Installation |
+|----------|---------|--------------|
+| **Python** | 3.12+ | [python.org](https://www.python.org/downloads/) |
+| **FFmpeg** | Latest | [Guide →](QUICK_START.md) |
+| **Ollama** | Latest | [ollama.ai](https://ollama.ai/download) |
 
-1. Double-cliquer sur `update.bat`
-2. Le script va automatiquement:
-   - Telecharger la derniere version depuis GitHub
-   - Mettre a jour les dependances Python si necessaire
-   - Vous informer des changements
+**Matériel recommandé:**
+- RAM: 16 GB (minimum 8 GB)
+- Disque: 20 GB libre
+- OS: Windows 10/11 64-bit
 
-### Methode 2: Mise a jour manuelle avec Git
+---
+
+## Utilisation
+
+### 1. Lancer l'application
 
 ```cmd
-cd C:\chemin\vers\OPCI-VIDEO-TEST-N2
-git pull origin main
-venv_312\Scripts\activate
-pip install -r requirements.txt --upgrade
+launch.bat
 ```
 
-### Methode 3: Telechargement complet
+### 2. Workflow Standard
 
-1. Sauvegarder vos donnees importantes (dossiers `output/`, `logs/`)
-2. Telecharger la nouvelle version depuis:
-   `https://github.com/King4Kats/OPCI-VIDEO-TEST-N2/archive/refs/heads/main.zip`
-3. Extraire et remplacer l'ancien dossier
-4. Relancer `install.bat`
+1. **Importer** vidéo(s) → Sélectionner fichiers
+2. **Analyser** → Clic "Démarrer l'analyse" (60-90 min pour 1h de vidéo)
+3. **Valider** → Éditer les segments proposés
+4. **Exporter** → Choisir dossier et exporter
 
----
-
-## Guide d'utilisation
-
-### 1. Demarrage
-- Lancer l'application via `launch.bat`
-- Verifier que FFmpeg et Ollama sont detectes
-
-### 2. Selection des fichiers
-- Cliquer sur "Selectionner les fichiers video"
-- Choisir un ou plusieurs fichiers (MTS, MP4, AVI, MOV, MKV)
-- Les fichiers MTS multiples seront automatiquement concatenes
-
-### 3. Traitement
-- Cliquer sur "Demarrer l'analyse"
-- Attendre la fin du traitement (10-60 min selon la duree)
-- Suivre la progression dans l'interface
-
-**Etapes du traitement:**
-1. Concatenation des fichiers (si plusieurs)
-2. Extraction de l'audio
-3. Transcription Whisper
-4. Export de la transcription (TXT + JSON)
-5. Analyse IA des themes
-6. Creation des segments
-
-### 4. Validation des segments
-- Consulter la liste des segments proposes
-- Double-cliquer sur un segment pour l'editer
-- Modifier les titres, ajuster les timestamps
-- Previsualiser un segment (bouton "Previsualiser")
-
-### 5. Export final
-- Cliquer sur "Choisir le dossier de sortie"
-- Selectionner le dossier de destination
-- Cliquer sur "Exporter tous les segments"
-- Attendre la fin de l'export
-
----
-
-## Structure des fichiers generes
+### 3. Fichiers Générés
 
 ```
 output/
 ├── transcriptions/
-│   ├── [nom_video]_transcription.txt    # Transcription complete avec timestamps
-│   └── [nom_video]_transcription.json   # Donnees structurees
+│   ├── [video]_transcription.txt
+│   └── [video]_transcription.json
 │
 └── [dossier_choisi]/
-    ├── 01_Titre_du_theme.mp4
-    ├── 02_Autre_theme.mp4
+    ├── 01_Theme1.mp4
+    ├── 02_Theme2.mp4
     └── ...
 ```
 
@@ -173,109 +107,138 @@ output/
 
 ## Configuration
 
-### Modeles IA
+Éditer `src/config.py`:
 
-Par defaut, l'application utilise:
-- **Whisper**: `medium` (bon compromis qualite/vitesse)
-- **Ollama**: `qwen2.5:3b` (modele leger ~2 GB RAM, optimise pour l'analyse de texte)
-
-Pour changer les modeles, editer `src/config.py`:
 ```python
-WHISPER_MODEL = 'small'  # Options: tiny, base, small, medium, large
-OLLAMA_MODEL = 'qwen2.5:3b'  # Ou tout autre modele Ollama (mistral:7b, gemma2:9b, etc.)
+# Modèles IA
+WHISPER_MODEL = "medium"       # tiny, base, small, medium, large
+OLLAMA_MODEL = "qwen2.5:3b"    # Modèle d'analyse
+
+# Qualité vidéo
+VIDEO_QUALITY = 23             # CRF: 18 (haute) - 28 (basse)
+OUTPUT_AUDIO_BITRATE = '192k'  # 128k, 192k, 256k, 320k
 ```
 
-### Qualite video
-
-Dans `src/config.py`:
+**Pour machines puissantes (16+ GB):**
 ```python
-VIDEO_QUALITY = 23  # 0 (meilleure) a 51 (pire), defaut: 23
-OUTPUT_VIDEO_CODEC = 'libx264'  # Codec video
-OUTPUT_AUDIO_CODEC = 'aac'  # Codec audio
+WHISPER_MODEL = "large"
+OLLAMA_MODEL = "qwen2.5:14b"
+VIDEO_QUALITY = 18
+```
+
+**Pour machines modestes (8 GB):**
+```python
+WHISPER_MODEL = "small"
+OLLAMA_MODEL = "qwen2.5:3b"
+VIDEO_QUALITY = 28
 ```
 
 ---
 
-## Performances attendues
+## Performances
 
-Sur un PC moderne (CPU uniquement):
-- **Concatenation**: 1-2 min pour 8 fichiers MTS
-- **Extraction audio**: 5-10 secondes
-- **Transcription Whisper**: ~6-7 min par 10 min de video
-- **Analyse IA**: ~2-3 min par chunk (4 chunks pour 1h de video)
-- **Export video**: ~1 min par segment
+### Benchmarks (CPU moderne, 16 GB RAM)
 
-**Total pour 1h de video**: ~60-90 minutes
+Pour 1 heure de vidéo:
+
+| Étape | Durée |
+|-------|-------|
+| Extraction audio | 10 sec |
+| Transcription (medium) | 35-40 min |
+| Analyse IA (qwen2.5:3b) | 8-12 min |
+| Export (10 segments) | 10-15 min |
+| **TOTAL** | **60-90 min** |
 
 ---
 
-## Depannage
+## Dépannage
 
-### "FFmpeg non trouve"
+###  FFmpeg non trouvé
+
 ```cmd
-# Verifier l'installation
 ffmpeg -version
-
-# Ajouter au PATH si necessaire
+# Si erreur, ajouter au PATH:
 setx PATH "%PATH%;C:\ffmpeg\bin"
 ```
 
-### "Modele Ollama non disponible"
-```cmd
-# Verifier Ollama
-ollama list
+###  Ollama non disponible
 
-# Telecharger le modele
+```cmd
+ollama list
 ollama pull qwen2.5:3b
 ```
 
-### "Erreur de memoire"
-- Fermer les autres applications
-- Utiliser un modele Whisper plus petit (`small` au lieu de `medium`)
-- Verifier l'espace disque disponible (min 5 GB)
+###  Erreur de mémoire
 
-### L'analyse IA ne fonctionne pas
-- Verifier qu'Ollama est lance (icone dans la barre des taches)
-- Relancer Ollama si necessaire
-- Verifier qu'un modele est installe: `ollama list`
+Éditer `src/config.py`:
+```python
+WHISPER_MODEL = "small"  # Au lieu de "medium"
+```
 
-### Logs de diagnostic
-Les logs sont disponibles dans: `logs/video_cutter.log`
+###  L'application ne démarre pas
 
----
-
-## Limitations connues
-
-- **GPU**: Supporte uniquement CPU pour Whisper (support GPU a venir)
-- **Formats video**: Optimise pour MTS, MP4, AVI, MOV, MKV
-- **Langues**: Optimise pour le francais (configurable)
-- **Duree max**: Pas de limite theorique, mais >2h peut etre long
+```cmd
+# Voir les logs
+notepad logs\video_cutter.log
+```
 
 ---
 
-## Support et contact
+## Structure du Projet
 
-Pour signaler un bug ou demander une fonctionnalite:
-- Consulter les logs dans `logs/`
-- Noter la version de l'application et de l'OS
-- Decrire les etapes pour reproduire le probleme
+```
+OPCI-VIDEO-TEST-N2/
+├── src/                    # Code source
+│   ├── main.py            # Point d'entrée
+│   ├── config.py          # Configuration
+│   ├── ui/                # Interface PyQt5
+│   ├── video/             # Traitement vidéo
+│   ├── transcription/     # Whisper
+│   ├── ai_analysis/       # Ollama
+│   ├── export/            # Export segments
+│   └── utils/             # Utilitaires
+│
+├── assets/                 # Ressources
+├── output/                 # Résultats
+├── logs/                   # Logs
+├── temp/                   # Temporaires
+│
+├── install.bat            # Installation
+├── launch.bat             # Lancement
+├── update.bat             # Mise à jour
+│
+├── README.md              # Ce fichier
+├── QUICK_START.md         # Guide rapide
+└── LICENSE                # Licence MIT
+```
+
+---
+
+## Technologies
+
+- **Interface**: PyQt5
+- **Transcription**: OpenAI Whisper
+- **IA**: Ollama (qwen2.5)
+- **Vidéo**: FFmpeg
+- **Audio**: Librosa, PyDub
+- **Deep Learning**: PyTorch
 
 ---
 
 ## Licence
 
-MIT License - Voir le fichier [LICENSE](LICENSE) pour plus de details
+MIT License - Voir [LICENSE](LICENSE)
 
 ---
 
-## Credits
+## Support
 
-- [OpenAI Whisper](https://github.com/openai/whisper) - Transcription audio
-- [Ollama](https://ollama.ai/) - Modeles IA locaux
-- [FFmpeg](https://ffmpeg.org/) - Traitement video
-- PyQt5, PyTorch, Librosa - Frameworks Python
+-  Documentation: [QUICK_START.md](QUICK_START.md)
+-  Bug? Voir `logs/video_cutter.log`
+-  Idées? Ouvrir une issue sur GitHub
 
 ---
 
-**Version**: 1.0
-**Derniere mise a jour**: Octobre 2025
+**Version**: 2.0.0
+**Dernière mise à jour**: Novembre 2025
+

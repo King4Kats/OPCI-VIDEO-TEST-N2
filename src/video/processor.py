@@ -140,14 +140,15 @@ class VideoProcessor:
             self.temp_files.append(str(audio_file))
 
             # Extraction avec ffmpeg
+            # Note: Whisper fonctionne bien avec 16kHz mono, mais on peut extraire en meilleure qualité
             (
                 ffmpeg
                 .input(video_path)
                 .output(
                     str(audio_file),
                     acodec='pcm_s16le',  # Format WAV non compressé
-                    ac=1,  # Mono
-                    ar=16000  # 16kHz (optimal pour Whisper)
+                    ac=1,  # Mono (optimal pour Whisper)
+                    ar=16000  # 16kHz (optimal pour Whisper, mais réduit la qualité)
                 )
                 .overwrite_output()
                 .run(quiet=True)
@@ -191,6 +192,7 @@ class VideoProcessor:
                         str(output_path),
                         vcodec=Config.OUTPUT_VIDEO_CODEC,
                         acodec=Config.OUTPUT_AUDIO_CODEC,
+                        audio_bitrate=Config.OUTPUT_AUDIO_BITRATE,
                         crf=Config.VIDEO_QUALITY,
                         preset='medium'  # Balance qualité/vitesse
                     )

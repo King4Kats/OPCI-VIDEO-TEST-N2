@@ -15,12 +15,12 @@ class Config:
     OUTPUT_DIR = APP_DIR / "output"
 
     # Transcription Whisper
-    WHISPER_MODEL = "medium"  # small, base, medium, large
+    WHISPER_MODEL = "medium"  # Options: tiny, base, small, medium, large
     WHISPER_LANGUAGE = "fr"
     SEGMENT_MAX_DURATION = 600  # 10 minutes maximum par segment
 
     # IA Analysis
-    OLLAMA_MODEL = "qwen2.5:3b"  # Modèle léger optimisé pour l'analyse de texte (~2 GB RAM)
+    OLLAMA_MODEL = "qwen2.5:3b"  # Modèle pour l'analyse de texte (mistral:7b, qwen2.5:14b aussi disponibles)
     MAX_TOKENS_PER_ANALYSIS = 4000
 
     # Vidéo
@@ -28,6 +28,7 @@ class Config:
     OUTPUT_VIDEO_FORMAT = 'mp4'
     OUTPUT_VIDEO_CODEC = 'libx264'
     OUTPUT_AUDIO_CODEC = 'aac'
+    OUTPUT_AUDIO_BITRATE = '192k'  # Bitrate audio pour l'export (128k, 192k, 256k, 320k)
     VIDEO_QUALITY = 23  # CRF value (18-28 recommended)
 
     # Interface

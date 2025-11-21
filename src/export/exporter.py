@@ -103,6 +103,12 @@ class VideoExporter:
 
             # Export terminé
             if not self.cancel_requested:
+                # Créer le document liste des extraits
+                try:
+                    self._create_extracts_list(video_path, segments, output_directory)
+                except Exception as e:
+                    logger.warning(f"Impossible de créer le fichier liste des extraits: {e}")
+
                 self.progress.progress_updated.emit(100, "Export terminé !")
                 self.progress.export_completed.emit(exported_files)
                 logger.info(f"Export terminé: {len(exported_files)} fichiers créés")
@@ -339,6 +345,193 @@ class VideoExporter:
                 return f"{bytes_size:.1f} {unit}"
             bytes_size /= 1024
         return f"{bytes_size:.1f} TB"
+
+    def _get_source_video_mapping(self, video_path: str) -> Optional[List[Dict[str, Any]]]:
+        """
+        Récupère le mapping des vidéos sources depuis le fichier project_autosave.json
+
+        Returns:
+            Liste de dict avec {path, start_time, end_time, duration} pour chaque vidéo source
+            None si pas de mapping disponible
+        """
+        try:
+            import json
+
+            # Chercher le fichier autosave
+            autosave_path = Path(Config.TEMP_DIR) / "project_autosave.json"
+            if not autosave_path.exists():
+                return None
+
+            with open(autosave_path, 'r', encoding='utf-8') as f:
+                project_data = json.load(f)
+
+            # Les données peuvent être à la racine ou dans 'result'
+            source_videos = project_data.get('source_videos', [])
+            if not source_videos and 'result' in project_data:
+                source_videos = project_data['result'].get('source_videos', [])
+
+            if not source_videos:
+                return None
+
+            # Créer le mapping avec les durées
+            video_mapping = []
+            current_offset = 0.0
+
+            for video_path in source_videos:
+                try:
+                    # Obtenir la durée de la vidéo source
+                    video_info = self.video_processor.get_video_info(video_path)
+                    duration = video_info.get('duration', 0)
+
+                    video_mapping.append({
+                        'path': video_path,
+                        'filename': Path(video_path).name,
+                        'start_time': current_offset,
+                        'end_time': current_offset + duration,
+                        'duration': duration
+                    })
+
+                    current_offset += duration
+
+                except Exception as e:
+                    logger.warning(f"Impossible de récupérer la durée de {video_path}: {e}")
+                    continue
+
+            return video_mapping if video_mapping else None
+
+        except Exception as e:
+            logger.warning(f"Impossible de créer le mapping des vidéos sources: {e}")
+            return None
+
+    def _find_source_video(self, timestamp: float, video_mapping: List[Dict[str, Any]]) -> Optional[str]:
+        """
+        Trouve la vidéo source correspondant à un timestamp donné
+
+        Args:
+            timestamp: Timestamp en secondes dans la vidéo concaténée
+            video_mapping: Liste de mappings vidéo
+
+        Returns:
+            Nom de fichier de la vidéo source ou None
+        """
+        if not video_mapping:
+            return None
+
+        for video in video_mapping:
+            if video['start_time'] <= timestamp < video['end_time']:
+                # Calculer le timestamp local dans cette vidéo
+                local_timestamp = timestamp - video['start_time']
+                return f"{video['filename']} ({self._format_time(local_timestamp)})"
+
+        # Si le timestamp est après la dernière vidéo, retourner la dernière
+        if video_mapping and timestamp >= video_mapping[-1]['end_time']:
+            last_video = video_mapping[-1]
+            local_timestamp = timestamp - last_video['start_time']
+            return f"{last_video['filename']} ({self._format_time(local_timestamp)})"
+
+        return None
+
+    def _create_extracts_list(self, video_path: str, segments: List[Dict[str, Any]],
+                              output_directory: str) -> str:
+        """
+        Crée un fichier texte listant tous les extraits exportés avec leurs timers
+
+        Args:
+            video_path: Chemin vers la vidéo source
+            segments: Liste des segments exportés
+            output_directory: Dossier de destination
+
+        Returns:
+            Chemin du fichier créé
+        """
+        from datetime import datetime
+
+        # Nom du fichier liste
+        list_filename = Path(output_directory) / "LISTE_EXTRAITS.txt"
+
+        # Calculer la durée totale
+        total_duration = sum([
+            segment.get('end_seconds', segment.get('end_time', 0)) -
+            segment.get('start_seconds', segment.get('start_time', 0))
+            for segment in segments
+        ])
+
+        # Récupérer le mapping des vidéos sources
+        video_mapping = self._get_source_video_mapping(video_path)
+
+        # Créer le fichier
+        with open(list_filename, 'w', encoding='utf-8') as f:
+            f.write('LISTE DES EXTRAITS EXPORTÉS - PROJET OPCI VIDEO\n')
+            f.write('=' * 80 + '\n\n')
+            f.write(f'Date d\'export: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+            f.write(f'Vidéo concaténée: {Path(video_path).name}\n')
+            f.write(f'Chemin: {video_path}\n')
+
+            # Afficher les vidéos sources si disponibles
+            if video_mapping:
+                f.write(f'\nVidéos sources ({len(video_mapping)} fichiers):\n')
+                for i, video_info in enumerate(video_mapping):
+                    f.write(f'  {i+1:02d}. {video_info["filename"]} - Durée: {self._format_duration(video_info["duration"])}\n')
+                f.write('\n')
+
+            f.write(f'Nombre d\'extraits: {len(segments)}\n')
+            f.write(f'Durée totale des extraits: {self._format_duration(total_duration)}\n\n')
+            f.write('=' * 80 + '\n\n')
+
+            for i, segment in enumerate(segments):
+                start_time = segment.get('start_seconds', segment.get('start_time', 0))
+                end_time = segment.get('end_seconds', segment.get('end_time', 0))
+                duration = end_time - start_time
+                title = segment.get('title', f'Segment {i+1}')
+
+                # Nom du fichier exporté
+                safe_title = get_safe_filename(title)
+                filename = f"{i+1:02d}_{safe_title}.{Config.OUTPUT_VIDEO_FORMAT}"
+
+                f.write(f'Extrait {i+1:02d}: {title}\n')
+                f.write(f'  Fichier: {filename}\n')
+
+                # Trouver et afficher la vidéo source
+                if video_mapping:
+                    source_start = self._find_source_video(start_time, video_mapping)
+                    source_end = self._find_source_video(end_time, video_mapping)
+
+                    if source_start == source_end:
+                        # L'extrait provient d'une seule vidéo source
+                        f.write(f'  Vidéo source: {source_start}\n')
+                    else:
+                        # L'extrait s'étend sur plusieurs vidéos sources
+                        f.write(f'  Vidéo source (début): {source_start}\n')
+                        f.write(f'  Vidéo source (fin): {source_end}\n')
+
+                f.write(f'  Timer concaténé: {self._format_time(start_time)} - {self._format_time(end_time)}\n')
+                f.write(f'  Durée: {self._format_duration(duration)}\n')
+
+                # Ajouter la description si disponible
+                if segment.get('description'):
+                    f.write(f'  Description: {segment["description"]}\n')
+
+                f.write('\n')
+
+            f.write('=' * 80 + '\n')
+            f.write(f'Format vidéo: {Config.OUTPUT_VIDEO_FORMAT.upper()}\n')
+            f.write(f'Codec vidéo: {Config.OUTPUT_VIDEO_CODEC}\n')
+            f.write(f'Codec audio: {Config.OUTPUT_AUDIO_CODEC} @ {Config.OUTPUT_AUDIO_BITRATE}\n')
+            f.write(f'Qualité vidéo: CRF {Config.VIDEO_QUALITY}\n')
+
+        logger.info(f"Fichier liste des extraits créé: {list_filename}")
+        return str(list_filename)
+
+    def _format_time(self, seconds: float) -> str:
+        """Formate un temps en secondes vers HH:MM:SS"""
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        secs = int(seconds % 60)
+
+        if hours > 0:
+            return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+        else:
+            return f"{minutes:02d}:{secs:02d}"
 
 
 class BatchExporter:
